@@ -1,21 +1,36 @@
-import {useState} from 'react'
 
-function FeedBackItem() {
-    const [rating, setRating] = useState(7)
-    const [text, setText] = useState('This is an example of a feedback item.')
+import {FaTimes, FaEdit} from 'react-icons/fa'
+import Card from './shared/Card'
+import {useContext} from 'react'
+import PropTypes from 'prop-types'
 
-    const handleClick = () => {
-        setRating(10)
-    }
+import FeedbackContext from '../context/FeedbackContext'
+
+
+function FeedBackItem({item}) {
+  const {deleteFeedback, editFeedback} = useContext(FeedbackContext) 
+
   return (
-    <div className="card">
-        <div className="num-display">{rating}</div>
+    <Card  >
+        <div className="num-display">{item.rating}</div>
+        <button onClick={() => deleteFeedback(item.id)} className="close">
+          <FaTimes color='purple' />
+        </button>
+        <button onClick={() => editFeedback(item)} className="edit">
+          <FaEdit color='purple'/>
+        </button>
         <div className="text-display">
-            {text}
+            {item.text}
         </div>
-        <button onClick={handleClick}> Click </button>
-    </div>
+    </Card>
   )
 }
+
+
+
+FeedBackItem.propTypes = {
+  item: PropTypes.object.isRequired,
+}
+
 
 export default FeedBackItem
